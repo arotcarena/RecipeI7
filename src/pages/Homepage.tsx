@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { RecipesList } from "../components/RecipesList";
-import { apiFilterByCategory, apiListAllMealCategories } from "../functions/api/apiQueries";
+import { apiListAllMealCategories } from "../functions/api/apiQueries";
 import { Category } from "../types/appTypes";
 import { useGlobalStore } from "../context/GlobalStoreProvider";
 
 export const Homepage = () => {
 
+    // retrieve categories
     const [categories, setCategories] = useState<Category[]>([]);
     useEffect(() => {
         (async () => {
@@ -14,22 +15,11 @@ export const Homepage = () => {
         })();
     }, []);
 
-    const [selectedCategory, setSelectedCategory] = useState<Category|null>(null);
+    // handle category selection
+    const {selectedCategory, setSelectedCategory} = useGlobalStore();
     const handleSelect = (category: Category) => {
         setSelectedCategory(category);
     }
-
-    const {setRecipesList} = useGlobalStore();
-    useEffect(() => {
-        (async () => {
-            if(selectedCategory) {
-                (async () => {
-                    const recipesFetched = await apiFilterByCategory(selectedCategory.strCategory);
-                    setRecipesList(recipesFetched);
-                })();
-            }
-        })();
-    }, [selectedCategory]);
 
     return (
         <div
