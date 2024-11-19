@@ -1,5 +1,6 @@
 import { useToggle } from "../../functions/customHooks/useToggle";
 import { Recipe } from "../../types/appTypes";
+import { AddRecipeForm } from "../AddRecipeForm";
 import { Modal } from "../Modal";
 
 type Props = {
@@ -25,7 +26,10 @@ export const RecipeCard = ({
                 </div>
             </div>
             <Modal isOpen={isOpen} onClose={toggle}>
-                <div>Modal : à faire</div>
+                <AddRecipeForm
+                    onClose={toggle}
+                    recipe={recipe}
+                />
             </Modal>
         </>
     )

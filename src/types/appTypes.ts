@@ -12,6 +12,14 @@ export type Recipe = {
     strArea: string,
     strCategory: string,
     strMealThumb: string,
+    [key: string]: any,
+};
+
+export type StoredRecipe = {
+    id: number,
+    name: string,
+    ingredients: string[],
+    consoDate: string,
 };
 
 export type Category = {
@@ -19,4 +27,10 @@ export type Category = {
     strCategory: string,
     strCategoryDescription: string,
     strCategoryThumb: string,
+};
+
+export type Ingredient = {
+    name: string,
+    quantity: string,
+    consoDate: string,
 };
