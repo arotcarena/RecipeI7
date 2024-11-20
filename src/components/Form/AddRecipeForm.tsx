@@ -1,11 +1,12 @@
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Ingredient, Recipe } from "../types/appTypes";
+import { Ingredient, Recipe } from "../../types/appTypes";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addIngredient } from "../features/ingredientSlice";
-import { addRecipe } from "../features/recipeSlice";
+import { addIngredient } from "../../features/ingredientSlice";
+import { addRecipe } from "../../features/recipeSlice";
+import { addEvent } from "../../features/eventSlice";
 
 type Props = {
     recipe: Recipe,
@@ -38,8 +39,10 @@ export const AddRecipeForm = ({
             ingredients: ingredientNames,
             id: recipe.idMeal,
             name: recipe.strMeal,
-            consoDate: consoDate
+            consoDate,
         }));
+        // add event
+        dispatch(addEvent({recipe, consoDate}));
         onClose();
     }
 

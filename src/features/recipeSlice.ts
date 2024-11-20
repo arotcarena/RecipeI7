@@ -21,12 +21,23 @@ const recipeSlice = createSlice({
         }>) => {
             state.value.push(action.payload);
         },
+        updateRecipeDate: (state: RecipeState, action: PayloadAction<{
+            id: number,
+            newDate: string,
+        }>) => {
+            state.value = state.value.map((recipe: StoredRecipe) => {
+                if(recipe.id === action.payload.id) {
+                    return {...recipe, consoDate: action.payload.newDate};
+                }
+                return recipe;
+            });
+        },
         resetRecipes: (state: RecipeState) => {
             state.value = [];
         },
     },
 });
 
-export const {addRecipe, resetRecipes} = recipeSlice.actions;
+export const {addRecipe, resetRecipes, updateRecipeDate} = recipeSlice.actions;
 
 export default recipeSlice.reducer;

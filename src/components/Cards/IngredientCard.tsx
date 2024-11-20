@@ -2,6 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { resolveIngredientThumbnail } from "../../functions/ingredientThumbnailResolver";
 import { Ingredient, Recipe } from "../../types/appTypes"
 import { deleteIngredient } from "../../features/ingredientSlice";
+import { useToggle } from "../../functions/customHooks/useToggle";
+import { Modal } from "../Modal";
+import { IngredientUpdateForm } from "../Form/IngredientUpdateForm";
 
 type Props = {
     ingredient: Ingredient
@@ -10,7 +13,6 @@ type Props = {
 export const IngredientCard = ({
     ingredient
 }: Props) => {
-
     const recipes: Recipe[] = useSelector((state: any) => state.recipes.value);
     const recipesHavingIngredient: string[] = recipes.filter((recipe: any) => {
         return recipe.ingredients.find((i: any) => i === ingredient.name) ? true: false;
@@ -20,6 +22,7 @@ export const IngredientCard = ({
     const handleDelete = () => {
         dispatch(deleteIngredient(ingredient.name));
     }
+    const [isOpen, toggleOpen] = useToggle(false);
 
     return (
         <div 
@@ -32,8 +35,16 @@ export const IngredientCard = ({
                 <div className="text-center text-sm font-normal">
                     recettes : {recipesHavingIngredient.join(', ')}
                 </div>
+                <button className="w-full" onClick={toggleOpen} type="button">modifier</button>
                 <button className="w-full" onClick={handleDelete} type="button">supprimer</button>
             </div>
+            {
+                isOpen && (
+                    <Modal isOpen={isOpen} onClose={toggleOpen}>
+                        <IngredientUpdateForm ingredient={ingredient} onClose={toggleOpen} />
+                    </Modal>
+                )
+            }
         </div>
     )
 };

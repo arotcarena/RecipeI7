@@ -35,6 +35,14 @@ const ingredientSlice = createSlice({
                 return i;
             });
         },
+        updateIngredientDate: (state: IngredientState, action: PayloadAction<{ingredientName: string, newDate: string}>) => {
+            state.value = state.value.map((i: Ingredient) => {
+                if(i.name === action.payload.ingredientName) {
+                    return {...i, consoDate: action.payload.newDate};
+                }
+                return i;
+            });
+        },
         deleteIngredient: (state: IngredientState, action: PayloadAction<string>) => {
             state.value = state.value.filter((i: Ingredient) => i.name !== action.payload);
         },
@@ -44,6 +52,6 @@ const ingredientSlice = createSlice({
     },
 });
 
-export const {addIngredient, updateIngredient, deleteIngredient, resetIngredients} = ingredientSlice.actions;
+export const {addIngredient, updateIngredient, deleteIngredient, resetIngredients, updateIngredientDate} = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

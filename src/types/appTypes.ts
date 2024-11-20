@@ -34,3 +34,9 @@ export type Ingredient = {
     quantity: string,
     consoDate: string,
 };
+
+export type EventType = {
+    id: string,
+    recipe: Recipe,
+    consoDate: string,
+};

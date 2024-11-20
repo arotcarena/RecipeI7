@@ -1,6 +1,6 @@
 import { useToggle } from "../../functions/customHooks/useToggle";
 import { Recipe } from "../../types/appTypes";
-import { AddRecipeForm } from "../AddRecipeForm";
+import { AddRecipeForm } from "../Form/AddRecipeForm";
 import { Modal } from "../Modal";
 
 type Props = {
