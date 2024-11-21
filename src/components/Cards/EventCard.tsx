@@ -3,6 +3,7 @@ import { deleteEvent } from "../../features/eventSlice";
 import { useToggle } from "../../functions/customHooks/useToggle";
 import { Modal } from "../Modal";
 import { EventUpdateForm } from "../Form/EventUpdateForm";
+import { deleteRecipe } from "../../features/recipeSlice";
 
 export const EventCard = ({arg}: {arg: any}) => {
     const id = arg.event['_def'].id;
@@ -12,6 +13,7 @@ export const EventCard = ({arg}: {arg: any}) => {
     const dispatch = useDispatch();
     const handleDelete = () => {
         dispatch(deleteEvent(title));
+        dispatch(deleteRecipe(title));
     }
 
     const [updateModalIsOpen, toggleUpdateModal] = useToggle(false);

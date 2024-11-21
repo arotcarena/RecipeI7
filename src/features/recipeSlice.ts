@@ -35,9 +35,12 @@ const recipeSlice = createSlice({
         resetRecipes: (state: RecipeState) => {
             state.value = [];
         },
+        deleteRecipe: (state: RecipeState, action: PayloadAction<string>) => {
+            state.value = state.value.filter((recipe: StoredRecipe) => recipe.name !== action.payload);
+        },
     },
 });
 
-export const {addRecipe, resetRecipes, updateRecipeDate} = recipeSlice.actions;
+export const {addRecipe, resetRecipes, updateRecipeDate, deleteRecipe} = recipeSlice.actions;
 
 export default recipeSlice.reducer;

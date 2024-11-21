@@ -30,6 +30,7 @@ export type Category = {
 };
 
 export type Ingredient = {
+    recipeNames: string[],
     name: string,
     quantity: string,
     consoDate: string,

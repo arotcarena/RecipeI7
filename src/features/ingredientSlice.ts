@@ -24,7 +24,7 @@ const ingredientSlice = createSlice({
                     existingIngredient.consoDate = consoDate;
                 }
             } else {
-                state.value.push({name, quantity, consoDate});
+                state.value.push({name, quantity, consoDate, recipeNames: action.payload.recipeNames});
             }
         },
         updateIngredient: (state: IngredientState, action: PayloadAction<{ingredientName: string, data: Ingredient}>) => {
