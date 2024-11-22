@@ -1,11 +1,10 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { Category, Recipe } from "../types/appTypes";
-import { apiFilterByCategory, apiSearchMealByName } from "../functions/api/apiQueries";
-import { useQSearch } from "../functions/customHooks/useQSearch";
+import { Category } from "../types/appTypes";
+import { useFilterByCategoryQuery, useSearchMealByNameQuery } from "../features/apiSlice";
 
 type GlobalStoreContextType = {
-    recipesList: Recipe[],
-    setRecipesList: React.Dispatch<React.SetStateAction<Recipe[]>>,
+    recipes: any[],
+    setRecipes: React.Dispatch<React.SetStateAction<any[]>>,
     q: string,
     setQ: React.Dispatch<React.SetStateAction<string>>,
     selectedCategory: Category|null,
@@ -19,30 +18,22 @@ type Props = PropsWithChildren<{}>;
 export const GlobalStoreProvider = ({
     children
 }: Props) => {
-    const [recipesList, setRecipesList] = useState<Recipe[]>([]);
     const [q, setQ] = useState<string>('');
+    const [recipes, setRecipes] = useState<any>([]);
     const [selectedCategory, setSelectedCategory] = useState<Category|null>(null);
 
     // on q change, search recipes
-    const {data: recipes} = useQSearch<Recipe>(
-        apiSearchMealByName,
-        q
-    );
+    const {data: recipesSearchedByName = []} = useSearchMealByNameQuery<any>(q);
+    const {data: recipesSearchedByCategory = []} = useFilterByCategoryQuery<any>(selectedCategory?.strCategory);
+ 
     useEffect(() => {
-        setRecipesList(recipes);
-    }, [recipes]);
+        setRecipes(recipesSearchedByCategory?.meals ?? []);
+    }, [recipesSearchedByCategory]);
+    
+    useEffect(() => {
+        setRecipes(recipesSearchedByName?.meals ?? []);
+    }, [recipesSearchedByName]);
 
-    // on category select
-    useEffect(() => {
-        (async () => {
-            if(selectedCategory) {
-                (async () => {
-                    const recipesFetched = await apiFilterByCategory(selectedCategory.strCategory);
-                    setRecipesList(recipesFetched);
-                })();
-            }
-        })();
-    }, [selectedCategory]);
 
     // if search by category, empty q search field
     useEffect(() => {
@@ -60,8 +51,8 @@ export const GlobalStoreProvider = ({
 
     return (
         <GlobalStoreContext.Provider value={{
-            recipesList,
-            setRecipesList,
+            recipes,
+            setRecipes,
             q,
             setQ,
             selectedCategory,

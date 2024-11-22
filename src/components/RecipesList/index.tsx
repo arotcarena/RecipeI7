@@ -3,7 +3,7 @@ import { RecipeCard } from "../Cards/RecipeCard";
 
 export const RecipesList = () => {
     
-    const {recipesList} = useGlobalStore();
+    const {recipes} = useGlobalStore();
 
     return (
         <div
@@ -11,7 +11,7 @@ export const RecipesList = () => {
             style={{width: '100%', maxWidth: '1200px'}}
         >
             {
-                recipesList.map((recipe: any, index: number) => (
+                recipes.map((recipe: any, index: number) => (
                         <RecipeCard
                             key={index}
                             recipe={recipe}

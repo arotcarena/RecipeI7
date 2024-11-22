@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react";
 import { RecipesList } from "../components/RecipesList";
-import { apiListAllMealCategories } from "../functions/api/apiQueries";
 import { Category } from "../types/appTypes";
 import { useGlobalStore } from "../context/GlobalStoreProvider";
+import { useListAllMealCategoriesQuery } from "../features/apiSlice";
 
 export const Homepage = () => {
 
     // retrieve categories
-    const [categories, setCategories] = useState<Category[]>([]);
-    useEffect(() => {
-        (async () => {
-            const categoriesFetched = await apiListAllMealCategories();
-            setCategories(categoriesFetched);
-        })();
-    }, []);
+    const {data} = useListAllMealCategoriesQuery<any>(null);
 
     // handle category selection
     const {selectedCategory, setSelectedCategory} = useGlobalStore();
@@ -27,7 +20,7 @@ export const Homepage = () => {
         >
             <div className="hidden xl:block max-w-[1200px] m-auto bg-white rounded-2xl mt-4 mb-5 py-4 px-5">
                 {
-                    categories.map((category: Category, index: number) => (
+                    data?.categories.map((category: Category, index: number) => (
                         <button
                             className={'py-2 px-5 rounded-2xl' + (selectedCategory === category ? ' border border-yellow-600 text-yellow-600': '')}
                             key={index}
